@@ -1,0 +1,19 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/transport
+    username: postgres
+    password: password
+    driver-class-name: org.postgresql.Driver
+
+
+logging:
+  level:
+    org.springframework: INFO
+#    org.hibernate: DEBUG
+    {main package path}: INFO
+
+datasource:
+  hibernate.dialect: org.hibernate.dialect.PostgreSQL95Dialect
+  ddl-auto : none
+  show-sql : true
+  format-sql : true
