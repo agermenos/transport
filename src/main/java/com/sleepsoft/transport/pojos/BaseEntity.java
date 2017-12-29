@@ -14,15 +14,15 @@ import javax.persistence.Transient;
 public class BaseEntity {
     @Id
     @Column(nullable = false)
-    private String id;
+    protected String id;
 
     @Column(name = "tenant_id", nullable = false, updatable = false)
     @JsonIgnore
-    private String tenantId;
+    protected String tenantId;
 
     @Transient
     // explicit get/set methods with JsonIgnore are needed otherwise jackson doesn't ignore them
-    private boolean isNew = true; // need this as getId() == null can not be used for the check as it is conventionally.
+    protected boolean isNew = true; // need this as getId() == null can not be used for the check as it is conventionally.
 
     public BaseEntity() {
         id = UUIDUtils.uuidString();

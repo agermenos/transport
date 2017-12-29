@@ -3,7 +3,6 @@ package com.sleepsoft.transport.pojos;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import com.sleepsoft.transport.pojos.enums.CatalogType;
-import lombok.Data;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 
@@ -11,7 +10,6 @@ import javax.persistence.*;
 import java.util.Objects;
 import java.util.Set;
 
-@Data
 @Entity
 @Table(name = "type_catalogs", schema = "public", catalog = "transport")
 @JsonIdentityInfo(generator = ObjectIdGenerators.IntSequenceGenerator.class,
@@ -38,22 +36,46 @@ public class TypeCatalogsPOJO extends BaseEntity{
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        if (!super.equals(o)) return false;
         TypeCatalogsPOJO that = (TypeCatalogsPOJO) o;
-        return Objects.equals(getId(), that.getId()) || Objects.equals(type, that.type);
+        if (that.getType().equals(this.getType())) {
+            if (this.getParent()!=null && that.getParent()!=null) {
+                return (this.getParent().equals(that.getParent()));
+            }
+            return true;
+        }
+        else return false;
     }
 
     @Override
     public String toString() {
         return "TypeCatalogsPOJO{" +
-                "id='" + getId() + '\'' +
+                "id='" + this.getId() + '\'' +
                 "type='" + type + '\'' +
                 '}';
     }
 
     @Override
     public int hashCode() {
+        return Objects.hashCode(this.getId()) + super.hashCode();
+    }
 
-        return Objects.hash(super.hashCode(), type);
+    public String getType() {
+        return type;
+    }
+
+    public TypeCatalogsPOJO getParent() {
+        return parent;
+    }
+
+    public void setParent(TypeCatalogsPOJO parent) {
+        this.parent = parent;
+    }
+
+    public Set<TypeCatalogsPOJO> getChildren() {
+        return children;
+    }
+
+    public void setChildren(Set<TypeCatalogsPOJO> children) {
+        this.children = children;
     }
 }

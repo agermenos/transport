@@ -13,7 +13,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = {TransportApplication.class})
-@Ignore
+//@Ignore
 public class AddressDaoTest {
     @Autowired
     AddressDao addressDao;

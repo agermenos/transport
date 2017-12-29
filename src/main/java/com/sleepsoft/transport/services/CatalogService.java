@@ -15,6 +15,11 @@ public class CatalogService {
     }
 
     public void createCatalog(TypeCatalogsPOJO  catalogsPOJO){
+        TypeCatalogsPOJO searchCatalog = catalogDao.findByType(catalogsPOJO.getType());
+        if (searchCatalog!=null) {
+            if (searchCatalog.equals(catalogsPOJO))
+            return;
+        }
         catalogDao.save(catalogsPOJO);
     }
 

@@ -1,15 +1,15 @@
 spring:
   datasource:
     url: jdbc:postgresql://localhost:5432/transport
-    username: postgres
-    password: password
+    username: agermenos
+    password:
     driver-class-name: org.postgresql.Driver
 
 
 logging:
   level:
     org.springframework: INFO
-#    org.hibernate: DEBUG
+    org.hibernate: DEBUG
     {main package path}: INFO
 
 datasource:

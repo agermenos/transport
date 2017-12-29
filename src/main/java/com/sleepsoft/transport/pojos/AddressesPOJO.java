@@ -1,12 +1,14 @@
 package com.sleepsoft.transport.pojos;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import javax.persistence.*;
 
 @Entity
 @Table(name = "addresses", schema = "public", catalog = "transport")
 @Data
+@EqualsAndHashCode(callSuper=true)
 public class AddressesPOJO extends BaseEntity{
     private String street;
     @Column(name = "street_2")

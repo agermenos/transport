@@ -4,7 +4,6 @@ import com.sleepsoft.transport.TransportApplication;
 import com.sleepsoft.transport.pojos.TypeCatalogsPOJO;
 import com.sleepsoft.transport.pojos.enums.CatalogType;
 import com.sleepsoft.transport.services.CatalogService;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +15,6 @@ import java.util.Set;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = {TransportApplication.class})
-@Ignore
 public class CatalogDaoTest {
     @Autowired
     TypeCatalogDao catalogDao;
@@ -30,16 +28,16 @@ public class CatalogDaoTest {
         return child;
     }
 
-    //@Test
+    @Test
     public void testCatalogCreation(){
         TypeCatalogsPOJO parent = new TypeCatalogsPOJO();
         Set<TypeCatalogsPOJO> children = new HashSet<>();
         parent.setType(CatalogType.CONTACT_TYPE);
         TypeCatalogsPOJO child1 = createChild("Seller", parent);
         TypeCatalogsPOJO child2 = createChild("Buyer", parent);
-        catalogDao.save(parent);
-        catalogDao.save(child1);
-        catalogDao.save(child2);
+        catalogService.createCatalog(parent);
+        catalogService.createCatalog(child1);
+        catalogService.createCatalog(child2);
     }
 
     @Test

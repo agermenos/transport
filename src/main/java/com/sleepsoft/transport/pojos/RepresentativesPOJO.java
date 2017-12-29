@@ -1,6 +1,7 @@
 package com.sleepsoft.transport.pojos;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import javax.persistence.*;
 import java.util.Set;
@@ -8,6 +9,7 @@ import java.util.Set;
 @Entity
 @Table(name = "representatives", schema = "public", catalog = "transport")
 @Data
+@EqualsAndHashCode(callSuper=true)
 public class RepresentativesPOJO extends BaseEntity{
     private String name;
     private String lastName;
