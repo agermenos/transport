@@ -5,16 +5,22 @@ import com.sleepsoft.transport.pojos.AddressesPOJO;
 import com.sleepsoft.transport.util.FilterHelper;
 import org.hibernate.Criteria;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Service("addressService")
 public class AddressService {
     @Autowired
     AddressDao addressDao;
     FilterHelper filterHelper = new FilterHelper<AddressesPOJO>(AddressesPOJO.class);
 
-    public void createAddress(AddressesPOJO address){
-        addressDao.save(address);
+    public AddressesPOJO createAddress(AddressesPOJO address){
+        return addressDao.save(address);
+    }
+
+    public AddressesPOJO getAddress(String addressId){
+        return addressDao.findOne(addressId);
     }
 
     public AddressesPOJO updateAddress(String id, AddressesPOJO address){

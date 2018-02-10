@@ -6,7 +6,7 @@ import com.sleepsoft.transport.pojos.enums.CatalogType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-@Service
+@Service("catalogService")
 public class CatalogService {
     @Autowired
     TypeCatalogDao catalogDao;
@@ -14,13 +14,13 @@ public class CatalogService {
         return catalogDao.findByType(type.definition());
     }
 
-    public void createCatalog(TypeCatalogsPOJO  catalogsPOJO){
+    public TypeCatalogsPOJO createCatalog(TypeCatalogsPOJO  catalogsPOJO){
         TypeCatalogsPOJO searchCatalog = catalogDao.findByType(catalogsPOJO.getType());
         if (searchCatalog!=null) {
             if (searchCatalog.equals(catalogsPOJO))
-            return;
+            return searchCatalog;
         }
-        catalogDao.save(catalogsPOJO);
+        return catalogDao.save(catalogsPOJO);
     }
 
     public TypeCatalogsPOJO updateCatalog(String id, TypeCatalogsPOJO newCatalogPOJO){
