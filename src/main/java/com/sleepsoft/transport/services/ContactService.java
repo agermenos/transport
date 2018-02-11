@@ -5,6 +5,8 @@ import com.sleepsoft.transport.pojos.ContactsPOJO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -12,8 +14,10 @@ import java.util.List;
 public class ContactService {
     @Autowired
     ContactsDao contactsDao;
+
+    @Transactional(propagation= Propagation.REQUIRED)
     public ContactsPOJO createContact(ContactsPOJO contact){
-        ContactsPOJO searchContact = findByContact(contact);
+        ContactsPOJO searchContact = findOneByCriteria(contact);
         if (searchContact!=null) {
             return searchContact;
         }
@@ -22,24 +26,24 @@ public class ContactService {
         }
     }
 
-    public ContactsPOJO findByContact(ContactsPOJO contact) {
+    @Transactional(readOnly = true, propagation=Propagation.REQUIRED)
+    public ContactsPOJO findOneByCriteria(ContactsPOJO contact) {
         Example<ContactsPOJO> example = Example.of(contact);
         return contactsDao.findOne(example);
     }
 
-    public Iterable<ContactsPOJO> findContactsByCriteria(ContactsPOJO contact){
+    @Transactional(readOnly = true, propagation=Propagation.REQUIRED)
+    public Iterable<ContactsPOJO> findAllByCriteria(ContactsPOJO contact){
         Example<ContactsPOJO> example=Example.of(contact);
         return contactsDao.findAll(example);
     }
 
-    public ContactsPOJO getContact(String contactId){
+    @Transactional(propagation=Propagation.REQUIRED)
+    public ContactsPOJO findById(String contactId){
         return contactsDao.findOne(contactId);
     }
 
-    public List<ContactsPOJO> getList(ContactsPOJO proxy){
-        return null;
-    }
-
+    @Transactional(propagation=Propagation.REQUIRED)
     public ContactsPOJO updateContact(String id, ContactsPOJO contact){
         ContactsPOJO originalContact = contactsDao.findOne(id);
         originalContact.setContact(contact.getContact()!=null?contact.getContact():originalContact.getContact());

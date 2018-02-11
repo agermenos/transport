@@ -5,7 +5,10 @@ import com.sleepsoft.transport.pojos.AddressesPOJO;
 import com.sleepsoft.transport.util.FilterHelper;
 import org.hibernate.Criteria;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Example;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -15,14 +18,29 @@ public class AddressService {
     AddressDao addressDao;
     FilterHelper filterHelper = new FilterHelper<AddressesPOJO>(AddressesPOJO.class);
 
+    @Transactional(propagation= Propagation.REQUIRED)
     public AddressesPOJO createAddress(AddressesPOJO address){
         return addressDao.save(address);
     }
 
-    public AddressesPOJO getAddress(String addressId){
+    @Transactional(readOnly = true, propagation=Propagation.REQUIRED)
+    public AddressesPOJO findById(String addressId){
         return addressDao.findOne(addressId);
     }
 
+    @Transactional(readOnly = true, propagation=Propagation.REQUIRED)
+    public AddressesPOJO getAddressByCriteria (AddressesPOJO addressesPOJO){
+        Example<AddressesPOJO> example = Example.of(addressesPOJO);
+        return addressDao.findOne(example);
+    }
+
+    @Transactional(readOnly = true, propagation=Propagation.REQUIRED)
+    public Iterable<AddressesPOJO> getAllByCriteria (AddressesPOJO addressesPOJO){
+        Example<AddressesPOJO> example = Example.of(addressesPOJO);
+        return addressDao.findAll(example);
+    }
+
+    @Transactional(propagation=Propagation.REQUIRED)
     public AddressesPOJO updateAddress(String id, AddressesPOJO address){
         AddressesPOJO oldAddress= addressDao.findOne(id);
         oldAddress.setState(address.getState()!=null?address.getState():oldAddress.getState());
@@ -33,13 +51,10 @@ public class AddressService {
         return oldAddress;
     }
 
+    @Transactional(readOnly = false, propagation=Propagation.REQUIRED)
     public void deleteAddress(String id){
         addressDao.delete(id);
     }
 
-    public List<AddressesPOJO> getList(AddressesPOJO addressCriteria, int pageSize, int pageNumber, String filters, String sortBy){
-        Criteria filterCriteria = filterHelper.getFilteredCriteria(addressCriteria, pageSize, pageNumber, filters, sortBy);
-        return null;
-    }
 
 }
