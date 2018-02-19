@@ -7,31 +7,34 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Optional;
+
 @Service("countryService")
 public class CountryService {
     @Autowired
     CountriesDao countriesDao;
 
     @Transactional(propagation= Propagation.REQUIRED)
-    public CountriesPOJO createCountry(CountriesPOJO country){
-        return countriesDao.save(country);
+    public Optional<CountriesPOJO> createCountry(CountriesPOJO country){
+        return Optional.of(countriesDao.save(country));
     }
 
     @Transactional(readOnly = true, propagation=Propagation.REQUIRED)
-    public CountriesPOJO findByCountry(String country){
-        return countriesDao.findByCountry(country);
+    public Optional<CountriesPOJO> findByCountry(String country){
+        return Optional.of(countriesDao.findByCountry(country));
     }
 
     @Transactional(readOnly = true, propagation=Propagation.REQUIRED)
-    public CountriesPOJO findById(String countryId){
-        return countriesDao.findOne(countryId);
+    public Optional<CountriesPOJO> findById(String countryId){
+        return Optional.of(countriesDao.findOne(countryId));
     }
 
     @Transactional(propagation=Propagation.REQUIRED)
-    public CountriesPOJO updateCountry(String id, CountriesPOJO country){
+    public Optional<CountriesPOJO> updateCountry(String id, CountriesPOJO country){
         CountriesPOJO originalCountry = countriesDao.findOne(id);
+        if (originalCountry==null) return null;
         originalCountry.setCountry(country.getCountry()!=null? country.getCountry():originalCountry.getCountry());
-        return countriesDao.save(originalCountry);
+        return Optional.of(countriesDao.save(originalCountry));
     }
 
     @Transactional(readOnly = true, propagation=Propagation.REQUIRED)

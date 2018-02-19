@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class CatalogService {
     @Autowired
     TypeCatalogDao catalogDao;
+
     @Transactional(readOnly = true, propagation=Propagation.REQUIRED)
     public TypeCatalogsPOJO findById(String id){
         return catalogDao.findOne(id);

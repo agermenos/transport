@@ -8,6 +8,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Optional;
+
 
 @Service("deliveriesService")
 public class DeliveriesService {
@@ -15,30 +17,35 @@ public class DeliveriesService {
     DeliveriesDao deliveriesDao;
 
     @Transactional(readOnly = true, propagation=Propagation.REQUIRED)
-    public DeliveriesPOJO findById(String id){
-        return deliveriesDao.findOne(id);
+    public Optional<DeliveriesPOJO> findById(String id){
+        return Optional.of(deliveriesDao.findOne(id));
     }
 
     @Transactional(readOnly = true, propagation=Propagation.REQUIRED)
-    public Iterable<DeliveriesPOJO> findAllByCriteria(DeliveriesPOJO deliveriesPOJO){
+    public Optional<Iterable<DeliveriesPOJO>> findAllByCriteria(DeliveriesPOJO deliveriesPOJO){
         Example<DeliveriesPOJO> example = Example.of(deliveriesPOJO);
-        return deliveriesDao.findAll(example);
+        return Optional.of(deliveriesDao.findAll(example));
     }
 
     @Transactional(readOnly = true, propagation=Propagation.REQUIRED)
-    public DeliveriesPOJO findOneByCriteria(DeliveriesPOJO deliveriesPOJO){
+    public Optional<DeliveriesPOJO> findOneByCriteria(DeliveriesPOJO deliveriesPOJO){
         Example<DeliveriesPOJO> example = Example.of(deliveriesPOJO);
-        return deliveriesDao.findOne(example);
+        return Optional.of(deliveriesDao.findOne(example));
     }
 
     @Transactional(propagation= Propagation.REQUIRED)
-    public DeliveriesPOJO updateDeliveries(String id, DeliveriesPOJO deliveries){
-        DeliveriesPOJO originalDeliveries = findById(id);
-        originalDeliveries.setCharge(deliveries.getCharge()!=null?deliveries.getCharge():originalDeliveries.getCharge());
-        originalDeliveries.setDeliveryDate(deliveries.getDeliveryDate()!=null?deliveries.getDeliveryDate():originalDeliveries.getDeliveryDate());
-        originalDeliveries.setDeliveryRequest(deliveries.getDeliveryRequest()!=null?deliveries.getDeliveryRequest():originalDeliveries.getDeliveryRequest());
-        originalDeliveries.setTransport(deliveries.getTransport()!=null?deliveries.getTransport():originalDeliveries.getTransport());
-        return deliveriesDao.save(originalDeliveries);
+    public Optional<DeliveriesPOJO> updateDeliveries(String id, DeliveriesPOJO deliveries){
+        DeliveriesPOJO originalDeliveries=null;
+        Optional<DeliveriesPOJO> tryOriginalDeliveries = findById(id);
+        if(tryOriginalDeliveries.isPresent()) {
+            originalDeliveries = tryOriginalDeliveries.get();
+            originalDeliveries.setCharge(deliveries.getCharge() != null ? deliveries.getCharge() : originalDeliveries.getCharge());
+            originalDeliveries.setDeliveryDate(deliveries.getDeliveryDate() != null ? deliveries.getDeliveryDate() : originalDeliveries.getDeliveryDate());
+            originalDeliveries.setDeliveryRequest(deliveries.getDeliveryRequest() != null ? deliveries.getDeliveryRequest() : originalDeliveries.getDeliveryRequest());
+            originalDeliveries.setTransport(deliveries.getTransport() != null ? deliveries.getTransport() : originalDeliveries.getTransport());
+            deliveriesDao.save(originalDeliveries);
+        }
+        return Optional.of(originalDeliveries);
     }
 
 
