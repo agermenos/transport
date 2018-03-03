@@ -17,7 +17,7 @@ public class TransportistsPOJO extends BaseEntity{
     private String name;
     private Long stars;
     @ManyToOne
-    RepresentativesPOJO representative;
+    BusinessesPOJO representative;
     @OneToMany
     List<DeliveriesPOJO> deliveries;
 }

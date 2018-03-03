@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service("addressService")
 public class AddressService {
@@ -19,36 +20,36 @@ public class AddressService {
     FilterHelper filterHelper = new FilterHelper<AddressesPOJO>(AddressesPOJO.class);
 
     @Transactional(propagation= Propagation.REQUIRED)
-    public AddressesPOJO createAddress(AddressesPOJO address){
-        return addressDao.save(address);
+    public Optional<AddressesPOJO> createAddress(AddressesPOJO address){
+        return Optional.of(addressDao.save(address));
     }
 
     @Transactional(readOnly = true, propagation=Propagation.REQUIRED)
-    public AddressesPOJO findById(String addressId){
-        return addressDao.findOne(addressId);
+    public Optional<AddressesPOJO> findById(String addressId){
+        return Optional.of(addressDao.findOne(addressId));
     }
 
     @Transactional(readOnly = true, propagation=Propagation.REQUIRED)
-    public AddressesPOJO getAddressByCriteria (AddressesPOJO addressesPOJO){
+    public Optional<AddressesPOJO> findOneByCriteria (AddressesPOJO addressesPOJO){
         Example<AddressesPOJO> example = Example.of(addressesPOJO);
-        return addressDao.findOne(example);
+        return Optional.of(addressDao.findOne(example));
     }
 
     @Transactional(readOnly = true, propagation=Propagation.REQUIRED)
-    public Iterable<AddressesPOJO> getAllByCriteria (AddressesPOJO addressesPOJO){
+    public Optional<Iterable<AddressesPOJO>> findAllByCriteria (AddressesPOJO addressesPOJO){
         Example<AddressesPOJO> example = Example.of(addressesPOJO);
-        return addressDao.findAll(example);
+        return Optional.of(addressDao.findAll(example));
     }
 
     @Transactional(propagation=Propagation.REQUIRED)
-    public AddressesPOJO updateAddress(String id, AddressesPOJO address){
+    public Optional<AddressesPOJO> updateAddress(String id, AddressesPOJO address){
         AddressesPOJO oldAddress= addressDao.findOne(id);
+        if (oldAddress==null) return null;
         oldAddress.setState(address.getState()!=null?address.getState():oldAddress.getState());
         oldAddress.setStreet(address.getStreet()!=null?address.getStreet():oldAddress.getStreet());
         oldAddress.setStreet2(address.getStreet2()!=null?address.getStreet2():oldAddress.getStreet2());
         oldAddress.setZipCode(address.getZipCode()!=null?address.getZipCode():oldAddress.getZipCode());
-        addressDao.save(address);
-        return oldAddress;
+        return Optional.of(addressDao.save(oldAddress));
     }
 
     @Transactional(readOnly = false, propagation=Propagation.REQUIRED)

@@ -20,5 +20,5 @@ public class ContactsPOJO extends BaseEntity implements Serializable{
             @JoinColumn(name = "contact_id", referencedColumnName = "id", nullable = false, updatable = false) },
             inverseJoinColumns = { @JoinColumn(name = "representative_id",
                     nullable = false, updatable = false) })
-    Set<RepresentativesPOJO> representatives;
+    Set<BusinessesPOJO> representatives;
 }
