@@ -41,4 +41,7 @@ public class BusinessesService {
         return Optional.of(businessesDao.save(originalBusiness));
     }
 
+    public void deleteService(String id) {
+        businessesDao.delete(id);
+    }
 }

@@ -9,8 +9,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
 
-@RestController
-@RequestMapping("businesses")
 public class BusinessController extends BaseController{
     @Autowired
     BusinessesService businessesService;
@@ -44,6 +42,12 @@ public class BusinessController extends BaseController{
     public ResponseEntity<BusinessesPOJO> updateBusiness(@RequestParam BusinessesPOJO business){
         Optional<BusinessesPOJO> optionalPojo = businessesService.updateContact(business.getId(), business);
         return getResponse(optionalPojo);
+    }
+
+    @RequestMapping(path="/{id}", method = RequestMethod.DELETE)
+    public ResponseEntity<BusinessesPOJO> deleteBusiness(@PathVariable String id){
+        businessesService.deleteService(id);
+        return (ResponseEntity<BusinessesPOJO>) ResponseEntity.noContent();
     }
 
 }

@@ -9,6 +9,6 @@ public class BaseController {
         if (value.isPresent()){
             return ResponseEntity.ok(value.get());
         }
-        else return ResponseEntity.unprocessableEntity().build();
+        else return ResponseEntity.notFound().build();
     }
 }

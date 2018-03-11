@@ -12,7 +12,7 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("addresses")
-public class AddressController extends BaseController{
+public class AAddressController extends BaseController{
     @Autowired
     AddressService addressService;
 
