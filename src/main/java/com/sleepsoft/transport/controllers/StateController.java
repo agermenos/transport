@@ -5,13 +5,12 @@ import com.sleepsoft.transport.services.StateService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
 
+@RestController
+@RequestMapping("states")
 public class StateController extends BaseController{
     @Autowired
     StateService stateService;
@@ -24,8 +23,7 @@ public class StateController extends BaseController{
     {
         StatesPOJO stateCriteria = new StatesPOJO(filter);
         Optional<Iterable<StatesPOJO>> optionalStatesPOJOList =
-                filter==null?stateService.findAllByCountry(""):
-                        stateService.findAllByCountry("");
+                        stateService.findAllByCriteria(stateCriteria);
         return getResponse(optionalStatesPOJOList);
     }
 
@@ -37,7 +35,7 @@ public class StateController extends BaseController{
 
     @RequestMapping(method = RequestMethod.POST)
     public ResponseEntity<StatesPOJO> createStates(@RequestParam StatesPOJO state){
-        Optional<StatesPOJO> optionalPojo = stateService.createstate(state);
+        Optional<StatesPOJO> optionalPojo = stateService.createState(state);
         return getResponse(optionalPojo);
     }
 
@@ -49,7 +47,7 @@ public class StateController extends BaseController{
 
     @RequestMapping(path="/{id}", method = RequestMethod.DELETE)
     public ResponseEntity<StatesPOJO> deleteState(@PathVariable String id){
-        stateService.deletestate(id);
+        stateService.deleteState(id);
         return (ResponseEntity<StatesPOJO>) ResponseEntity.noContent();
     }
 

@@ -8,7 +8,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
-
+@RestController
+@RequestMapping("businesses")
 public class BusinessController extends BaseController{
     @Autowired
     BusinessesService businessesService;
@@ -21,7 +22,6 @@ public class BusinessController extends BaseController{
     {
         BusinessesPOJO businessCriteria = new BusinessesPOJO(filter);
         Optional<Iterable<BusinessesPOJO>> optionalBusinessesPOJOList =
-                filter==null?businessesService.findAllByCriteria(businessCriteria):
                         businessesService.findAllByCriteria(businessCriteria);
         return getResponse(optionalBusinessesPOJOList);
     }

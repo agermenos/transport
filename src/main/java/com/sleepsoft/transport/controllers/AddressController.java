@@ -12,7 +12,7 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("addresses")
-public class AAddressController extends BaseController{
+public class AddressController extends BaseController{
     @Autowired
     AddressService addressService;
 
@@ -24,8 +24,7 @@ public class AAddressController extends BaseController{
     {
         AddressesPOJO addressCriteria = new AddressesPOJO(filter);
         Optional<Iterable<AddressesPOJO>> optionalAddressesPOJOIterable =
-                filter==null?addressService.findAllByCriteria(addressCriteria):
-                        addressService.findAllByCriteria(addressCriteria);
+               addressService.findAllByCriteria(addressCriteria);
         return getResponse(optionalAddressesPOJOIterable);
     }
 
