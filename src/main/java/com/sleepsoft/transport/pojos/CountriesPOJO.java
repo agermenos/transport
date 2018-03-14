@@ -19,8 +19,10 @@ import java.util.List;
 @Slf4j
 public class CountriesPOJO extends BaseEntity{
     private String country;
-    @OneToMany
-    List<StatesPOJO> states;
+
+    public CountriesPOJO(){
+        super();
+    }
 
     public CountriesPOJO(String filter) {
         try {

@@ -17,8 +17,8 @@ public class StateController extends BaseController{
 
     @RequestMapping(method = RequestMethod.GET)
     public ResponseEntity<Iterable<StatesPOJO>> getStatees(
-            @PathVariable(name = "filter", required = false) String filter,
-            @PathVariable(name = "sortby", required = false) String sortby,
+            @RequestParam(name = "filter", required = false) String filter,
+            @RequestParam(name = "sortby", required = false) String sortby,
             Pageable pageable)
     {
         StatesPOJO stateCriteria = new StatesPOJO(filter);

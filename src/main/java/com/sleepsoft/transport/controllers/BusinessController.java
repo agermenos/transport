@@ -16,8 +16,8 @@ public class BusinessController extends BaseController{
 
     @RequestMapping(method = RequestMethod.GET)
     public ResponseEntity<Iterable<BusinessesPOJO>> getBusinesses(
-            @PathVariable(name = "filter", required = false) String filter,
-            @PathVariable(name = "sortby", required = false) String sortby,
+            @RequestParam(name = "filter", required = false) String filter,
+            @RequestParam(name = "sortby", required = false) String sortby,
             Pageable pageable)
     {
         BusinessesPOJO businessCriteria = new BusinessesPOJO(filter);

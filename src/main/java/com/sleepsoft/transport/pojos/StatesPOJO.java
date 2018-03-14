@@ -8,6 +8,7 @@ import org.apache.http.NameValuePair;
 
 import javax.persistence.*;
 import java.net.URISyntaxException;
+import java.util.Arrays;
 import java.util.List;
 
 @Entity
@@ -17,22 +18,35 @@ import java.util.List;
 @Slf4j
 public class StatesPOJO extends BaseEntity{
     private String state;
-    @ManyToOne
+    @ManyToOne()
     CountriesPOJO country;
+
+    public StatesPOJO(){
+        super();
+    }
 
     public StatesPOJO(String filter) {
         try {
-            List<NameValuePair> valuePairList = FilterHelper.getNameValuePair(filter);
-            valuePairList.forEach(nameValuePair -> {
-                switch (nameValuePair.getName().toLowerCase().trim()){
-                    case "state_state": setState(nameValuePair.getValue());
+            if (filter!=null) {
+                String[] pairs=filter.split("\\s*,\\s*");
+                Arrays.stream(pairs).forEach(valuePair -> {
+                    String[] keyValue=valuePair.split("\\s*=\\s*");
+                    switch (keyValue[0].toLowerCase().trim()) {
+                        case "state":
+                            setState(keyValue[1]);
+                    }
+                });
+                if (filter.toLowerCase().contains("country")) {
+                    CountriesPOJO countryPOJO = new CountriesPOJO(filter);
                 }
-            });
-            if (filter.toLowerCase().contains("country")) {
-                CountriesPOJO countryPOJO = new CountriesPOJO(filter);
             }
-        } catch (URISyntaxException e) {
+        } catch (Exception e) {
             log.error(e.getMessage());
         }
+    }
+
+    public boolean isEmpty() {
+        return this.country==null &&
+                this.state==null;
     }
 }

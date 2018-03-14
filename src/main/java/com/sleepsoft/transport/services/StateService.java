@@ -2,8 +2,10 @@ package com.sleepsoft.transport.services;
 
 import com.sleepsoft.transport.daos.StatesDao;
 import com.sleepsoft.transport.pojos.StatesPOJO;
+import org.hibernate.Criteria;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
+import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -39,7 +41,14 @@ public class StateService {
 
     @Transactional(readOnly = true, propagation=Propagation.REQUIRED)
     public Optional<Iterable<StatesPOJO>> findAllByCriteria (StatesPOJO state){
-        Example<StatesPOJO> example = Example.of(state);
+        if (state.isEmpty()) {
+            return Optional.of(statesDao.findAll());
+        }
+        state.setId(null  );
+
+        ExampleMatcher matcher = ExampleMatcher.matching()
+                .withIgnoreCase(true);
+        Example<StatesPOJO> example = Example.of(state, matcher);
         return Optional.of(statesDao.findAll(example));
     }
 
