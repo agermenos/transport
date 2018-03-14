@@ -21,4 +21,11 @@ public class ContactsPOJO extends BaseEntity implements Serializable{
             inverseJoinColumns = { @JoinColumn(name = "representative_id",
                     nullable = false, updatable = false) })
     Set<BusinessesPOJO> representatives;
+
+    @Override
+    public boolean isEmpty() {
+        return contact==null &&
+                contactType==null &&
+                representatives.isEmpty();
+    }
 }

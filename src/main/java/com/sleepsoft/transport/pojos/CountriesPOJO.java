@@ -20,6 +20,11 @@ import java.util.List;
 public class CountriesPOJO extends BaseEntity{
     private String country;
 
+    @Override
+    public boolean isEmpty() {
+        return country==null;
+    }
+
     public CountriesPOJO(){
         super();
     }

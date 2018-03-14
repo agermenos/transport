@@ -25,24 +25,24 @@ public class AddressController extends BaseController{
         AddressesPOJO addressCriteria = new AddressesPOJO(filter);
         Optional<Iterable<AddressesPOJO>> optionalAddressesPOJOIterable =
                addressService.findAllByCriteria(addressCriteria);
-        return getResponse(optionalAddressesPOJOIterable);
+        return (ResponseEntity<Iterable<BusinessesPOJO>>) getResponse(optionalAddressesPOJOIterable);
     }
 
     @RequestMapping(path="/{id}", method = RequestMethod.GET)
     public ResponseEntity<AddressesPOJO> getAddress(@PathVariable String id){
         Optional<AddressesPOJO> optionalAddressesPOJO = addressService.findById(id);
-        return getResponse(optionalAddressesPOJO);
+        return (ResponseEntity<AddressesPOJO>) getResponse(optionalAddressesPOJO);
     }
 
     @RequestMapping(method = RequestMethod.POST)
     public ResponseEntity<AddressesPOJO> createAddress(@RequestParam AddressesPOJO address){
         Optional<AddressesPOJO> optionalPojo = addressService.createAddress(address);
-        return getResponse(optionalPojo);
+        return (ResponseEntity<AddressesPOJO>) getResponse(optionalPojo);
     }
 
     @RequestMapping(path="/{id}", method = RequestMethod.PUT)
-    public ResponseEntity<AddressesPOJO> updateAddress (@RequestParam AddressesPOJO address){
-        Optional<AddressesPOJO> optionalPojo = addressService.updateAddress(address.getId(), address);
-        return getResponse(optionalPojo);
+    public ResponseEntity<AddressesPOJO> updateAddress(@RequestParam AddressesPOJO address, @PathVariable("id") String id){
+        Optional<AddressesPOJO> optionalPojo = addressService.updateAddress(id, address);
+        return (ResponseEntity<AddressesPOJO>) getResponse(optionalPojo);
     }
 }

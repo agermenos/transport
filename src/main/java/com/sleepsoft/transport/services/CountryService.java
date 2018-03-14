@@ -32,7 +32,7 @@ public class CountryService {
     @Transactional(propagation=Propagation.REQUIRED)
     public Optional<CountriesPOJO> updateCountry(String id, CountriesPOJO country){
         CountriesPOJO originalCountry = countriesDao.findOne(id);
-        if (originalCountry==null) return null;
+        if (originalCountry==null) return Optional.empty();
         originalCountry.setCountry(country.getCountry()!=null? country.getCountry():originalCountry.getCountry());
         return Optional.of(countriesDao.save(originalCountry));
     }

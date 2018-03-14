@@ -45,4 +45,11 @@ public class BusinessesPOJO extends BaseEntity{
             log.error(e.getMessage());
         }
     }
+
+    @Override
+    public boolean isEmpty() {
+        return name==null &&
+                address==null &&
+                contacts.isEmpty();
+    }
 }

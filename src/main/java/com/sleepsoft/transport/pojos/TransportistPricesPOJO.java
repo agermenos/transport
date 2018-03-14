@@ -19,4 +19,13 @@ public class TransportistPricesPOJO extends BaseEntity{
     TransportistsPOJO transportist;
     @ManyToOne
     TypeCatalogsPOJO transportType;
+
+
+    @Override
+    public boolean isEmpty() {
+        return price==null &&
+                route==null &&
+                transportist==null &&
+                transportType==null;
+    }
 }

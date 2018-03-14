@@ -17,4 +17,11 @@ public class RoutesPOJO extends BaseEntity{
     @ManyToOne
     @JoinColumn(name = "destination_state")
     StatesPOJO destinationState;
+
+    @Override
+    public boolean isEmpty() {
+        return distance==null &&
+                originState==null &&
+                destinationState==null;
+    }
 }

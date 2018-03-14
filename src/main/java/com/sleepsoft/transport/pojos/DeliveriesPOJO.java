@@ -16,4 +16,12 @@ public class DeliveriesPOJO extends BaseEntity{
     private Date deliveryDate;
     @ManyToOne (cascade = CascadeType.ALL)
     TransportistsPOJO transport;
+
+    @Override
+    public boolean isEmpty() {
+        return deliveryDate==null &&
+                deliveryRequest==null &&
+                charge==null &&
+                transport == null;
+    }
 }

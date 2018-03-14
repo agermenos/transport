@@ -23,6 +23,17 @@ public class AddressesPOJO extends BaseEntity{
     @ManyToOne
     private StatesPOJO state;
 
+    public AddressesPOJO(){
+        super();
+    }
+
+    public boolean isEmpty(){
+        return this.state==null &&
+                this.street==null &&
+                this.street2 == null &&
+                this.zipCode == null;
+    }
+
     public AddressesPOJO(String filter) {
         try {
             List<NameValuePair> valuePairList = FilterHelper.getNameValuePair(filter);

@@ -11,10 +11,12 @@ import javax.persistence.Transient;
 
 @MappedSuperclass
 @Data
-public class BaseEntity {
+public abstract class BaseEntity {
     @Id
     @Column(nullable = false)
     protected String id;
+
+    abstract public boolean isEmpty();
 
     @Column(name = "tenant_id", nullable = false, updatable = false)
     @JsonIgnore

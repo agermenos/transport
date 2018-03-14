@@ -46,7 +46,7 @@ public class ContactService {
     @Transactional(propagation=Propagation.REQUIRED)
     public Optional<ContactsPOJO> updateContact(String id, ContactsPOJO contact){
         ContactsPOJO originalContact = contactsDao.findOne(id);
-        if (originalContact==null) return null;
+        if (originalContact==null) return Optional.empty();
         originalContact.setContact(contact.getContact()!=null?contact.getContact():originalContact.getContact());
         originalContact.setContactType(contact.getContactType()!=null?contact.getContactType():originalContact.getContactType());
         return Optional.of(contactsDao.save(originalContact));

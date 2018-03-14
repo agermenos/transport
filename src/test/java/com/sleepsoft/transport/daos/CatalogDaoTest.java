@@ -10,8 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.Optional;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = {TransportApplication.class})
@@ -31,7 +30,6 @@ public class CatalogDaoTest {
     @Test
     public void testCatalogCreation(){
         TypeCatalogsPOJO parent = new TypeCatalogsPOJO();
-        Set<TypeCatalogsPOJO> children = new HashSet<>();
         parent.setType(CatalogType.CONTACT_TYPE);
         TypeCatalogsPOJO child1 = createChild("Seller", parent);
         TypeCatalogsPOJO child2 = createChild("Buyer", parent);
@@ -42,10 +40,12 @@ public class CatalogDaoTest {
 
     @Test
     public void getCatalogTest(){
-        TypeCatalogsPOJO parent = catalogService.getCatalog(CatalogType.CONTACT_TYPE);
+        Optional<TypeCatalogsPOJO> parent = catalogService.getCatalog(CatalogType.CONTACT_TYPE);
         System.out.println("Parent: "+ parent.toString());
-        parent.getChildren().stream().forEach(
-                child -> System.out.println(child.toString())
-        );
+        if (parent.isPresent()){
+            parent.get().getChildren().forEach(
+                    child -> System.out.println(child.toString())
+            );
+        }
     }
 }

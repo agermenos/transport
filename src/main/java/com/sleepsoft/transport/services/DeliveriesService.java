@@ -45,7 +45,7 @@ public class DeliveriesService {
             originalDeliveries.setTransport(deliveries.getTransport() != null ? deliveries.getTransport() : originalDeliveries.getTransport());
             deliveriesDao.save(originalDeliveries);
         }
-        return Optional.of(originalDeliveries);
+        return Optional.ofNullable(originalDeliveries);
     }
 
 

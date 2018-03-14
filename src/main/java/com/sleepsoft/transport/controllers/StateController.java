@@ -24,25 +24,25 @@ public class StateController extends BaseController{
         StatesPOJO stateCriteria = new StatesPOJO(filter);
         Optional<Iterable<StatesPOJO>> optionalStatesPOJOList =
                         stateService.findAllByCriteria(stateCriteria);
-        return getResponse(optionalStatesPOJOList);
+        return (ResponseEntity<Iterable<StatesPOJO>>) getResponse(optionalStatesPOJOList);
     }
 
     @RequestMapping(path="/{id}", method = RequestMethod.GET)
     public ResponseEntity<StatesPOJO> getState(@PathVariable String id){
         Optional<StatesPOJO> optionalStatesPOJO = stateService.findById(id);
-        return getResponse(optionalStatesPOJO);
+        return (ResponseEntity<StatesPOJO>) getResponse(optionalStatesPOJO);
     }
 
     @RequestMapping(method = RequestMethod.POST)
     public ResponseEntity<StatesPOJO> createStates(@RequestParam StatesPOJO state){
         Optional<StatesPOJO> optionalPojo = stateService.createState(state);
-        return getResponse(optionalPojo);
+        return (ResponseEntity<StatesPOJO>) getResponse(optionalPojo);
     }
 
     @RequestMapping(path="/{id}", method = RequestMethod.PUT)
-    public ResponseEntity<StatesPOJO> updateState(@RequestParam StatesPOJO state){
-        Optional<StatesPOJO> optionalPojo = stateService.updateState(state.getId(), state);
-        return getResponse(optionalPojo);
+    public ResponseEntity<StatesPOJO> updateState(@RequestParam StatesPOJO state, @PathVariable("id") String id){
+        Optional<StatesPOJO> optionalPojo = stateService.updateState(id, state);
+        return (ResponseEntity<StatesPOJO>) getResponse(optionalPojo);
     }
 
     @RequestMapping(path="/{id}", method = RequestMethod.DELETE)

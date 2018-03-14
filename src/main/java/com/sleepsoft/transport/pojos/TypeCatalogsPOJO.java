@@ -78,4 +78,10 @@ public class TypeCatalogsPOJO extends BaseEntity{
     public void setChildren(Set<TypeCatalogsPOJO> children) {
         this.children = children;
     }
+
+    @Override
+    public boolean isEmpty() {
+        return this.parent==null &&
+                this.type==null;
+    }
 }

@@ -2,22 +2,18 @@ package com.sleepsoft.transport.services;
 
 import com.sleepsoft.transport.daos.AddressDao;
 import com.sleepsoft.transport.pojos.AddressesPOJO;
-import com.sleepsoft.transport.util.FilterHelper;
-import org.hibernate.Criteria;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
 import java.util.Optional;
 
 @Service("addressService")
 public class AddressService {
     @Autowired
     AddressDao addressDao;
-    FilterHelper filterHelper = new FilterHelper<AddressesPOJO>(AddressesPOJO.class);
 
     @Transactional(propagation= Propagation.REQUIRED)
     public Optional<AddressesPOJO> createAddress(AddressesPOJO address){
@@ -44,7 +40,7 @@ public class AddressService {
     @Transactional(propagation=Propagation.REQUIRED)
     public Optional<AddressesPOJO> updateAddress(String id, AddressesPOJO address){
         AddressesPOJO oldAddress= addressDao.findOne(id);
-        if (oldAddress==null) return null;
+        if (oldAddress==null) return Optional.empty();
         oldAddress.setState(address.getState()!=null?address.getState():oldAddress.getState());
         oldAddress.setStreet(address.getStreet()!=null?address.getStreet():oldAddress.getStreet());
         oldAddress.setStreet2(address.getStreet2()!=null?address.getStreet2():oldAddress.getStreet2());
@@ -52,7 +48,7 @@ public class AddressService {
         return Optional.of(addressDao.save(oldAddress));
     }
 
-    @Transactional(readOnly = false, propagation=Propagation.REQUIRED)
+    @Transactional(propagation=Propagation.REQUIRED)
     public void deleteAddress(String id){
         addressDao.delete(id);
     }

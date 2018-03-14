@@ -20,4 +20,11 @@ public class TransportistsPOJO extends BaseEntity{
     BusinessesPOJO representative;
     @OneToMany
     List<DeliveriesPOJO> deliveries;
+
+    public boolean isEmpty(){
+        return representative.isEmpty() &&
+                deliveries.isEmpty() &&
+                name==null &&
+                stars==null;
+    }
 }

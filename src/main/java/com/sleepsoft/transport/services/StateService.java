@@ -55,7 +55,7 @@ public class StateService {
     @Transactional(propagation=Propagation.REQUIRED)
     public Optional<StatesPOJO> updateState(String id, StatesPOJO state){
         StatesPOJO originalState = statesDao.findOne(id);
-        if (originalState==null) return null;
+        if (originalState==null) return Optional.empty();
         originalState.setState(state.getState()!=null? state.getState():originalState.getState());
         return Optional.of(statesDao.save(originalState));
     }

@@ -23,25 +23,25 @@ public class BusinessController extends BaseController{
         BusinessesPOJO businessCriteria = new BusinessesPOJO(filter);
         Optional<Iterable<BusinessesPOJO>> optionalBusinessesPOJOList =
                         businessesService.findAllByCriteria(businessCriteria);
-        return getResponse(optionalBusinessesPOJOList);
+        return (ResponseEntity<Iterable<BusinessesPOJO>>) getResponse(optionalBusinessesPOJOList);
     }
 
     @RequestMapping(path="/{id}", method = RequestMethod.GET)
     public ResponseEntity<BusinessesPOJO> getBusiness(@PathVariable String id){
         Optional<BusinessesPOJO> optionalBusinessesPOJO = businessesService.findById(id);
-        return getResponse(optionalBusinessesPOJO);
+        return (ResponseEntity<BusinessesPOJO>) getResponse(optionalBusinessesPOJO);
     }
 
     @RequestMapping(method = RequestMethod.POST)
     public ResponseEntity<BusinessesPOJO> createBusinesses(@RequestParam BusinessesPOJO business){
         Optional<BusinessesPOJO> optionalPojo = businessesService.createBusiness(business);
-        return getResponse(optionalPojo);
+        return (ResponseEntity<BusinessesPOJO>) getResponse(optionalPojo);
     }
 
     @RequestMapping(path="/{id}", method = RequestMethod.PUT)
-    public ResponseEntity<BusinessesPOJO> updateBusiness(@RequestParam BusinessesPOJO business){
-        Optional<BusinessesPOJO> optionalPojo = businessesService.updateContact(business.getId(), business);
-        return getResponse(optionalPojo);
+    public ResponseEntity<BusinessesPOJO> updateBusiness(@RequestParam BusinessesPOJO business, @PathVariable("id") String id){
+        Optional<BusinessesPOJO> optionalPojo = businessesService.updateContact(id, business);
+        return (ResponseEntity<BusinessesPOJO>) getResponse(optionalPojo);
     }
 
     @RequestMapping(path="/{id}", method = RequestMethod.DELETE)
