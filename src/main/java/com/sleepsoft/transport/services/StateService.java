@@ -44,8 +44,6 @@ public class StateService {
         if (state.isEmpty()) {
             return Optional.of(statesDao.findAll());
         }
-        state.setId(null  );
-
         ExampleMatcher matcher = ExampleMatcher.matching()
                 .withIgnoreCase(true);
         Example<StatesPOJO> example = Example.of(state, matcher);

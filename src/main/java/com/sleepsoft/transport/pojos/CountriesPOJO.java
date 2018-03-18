@@ -10,6 +10,7 @@ import javax.persistence.Entity;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import java.net.URISyntaxException;
+import java.util.Arrays;
 import java.util.List;
 
 @Entity
@@ -19,10 +20,12 @@ import java.util.List;
 @Slf4j
 public class CountriesPOJO extends BaseEntity{
     private String country;
+    private String code;
 
     @Override
     public boolean isEmpty() {
-        return country==null;
+        return country==null &&
+                code==null;
     }
 
     public CountriesPOJO(){
@@ -31,13 +34,22 @@ public class CountriesPOJO extends BaseEntity{
 
     public CountriesPOJO(String filter) {
         try {
-            List<NameValuePair> valuePairList = FilterHelper.getNameValuePair(filter);
-            valuePairList.forEach(nameValuePair -> {
-                switch (nameValuePair.getName().toLowerCase().trim()){
-                    case "country_country": setCountry(nameValuePair.getValue());
-                }
-            });
-        } catch (URISyntaxException e) {
+            id=null;
+            if (filter!=null) {
+                String[] pairs=filter.split("\\s*,\\s*");
+                Arrays.stream(pairs).forEach(valuePair -> {
+                    String[] keyValue=valuePair.split("\\s*=\\s*");
+                    switch (keyValue[0].toLowerCase().trim()) {
+                        case "country":
+                            setCountry(keyValue[1]);
+                            break;
+                        case "code":
+                            setCode(keyValue[1]);
+                            break;
+                    }
+                });
+            }
+        } catch (Exception e) {
             log.error(e.getMessage());
         }
     }

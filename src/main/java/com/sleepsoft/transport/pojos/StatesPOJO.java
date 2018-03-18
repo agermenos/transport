@@ -20,6 +20,7 @@ public class StatesPOJO extends BaseEntity{
     private String state;
     @ManyToOne()
     CountriesPOJO country;
+    private String code;
 
     public StatesPOJO(){
         super();
@@ -27,6 +28,7 @@ public class StatesPOJO extends BaseEntity{
 
     public StatesPOJO(String filter) {
         try {
+            id=null;
             if (filter!=null) {
                 String[] pairs=filter.split("\\s*,\\s*");
                 Arrays.stream(pairs).forEach(valuePair -> {
@@ -34,10 +36,15 @@ public class StatesPOJO extends BaseEntity{
                     switch (keyValue[0].toLowerCase().trim()) {
                         case "state":
                             setState(keyValue[1]);
+                            break;
+                        case "code":
+                            setCode(keyValue[1]);
+                            break;
                     }
                 });
                 if (filter.toLowerCase().contains("country")) {
-                    CountriesPOJO countryPOJO = new CountriesPOJO(filter);
+                    CountriesPOJO countryPOJO = new CountriesPOJO(filter.replace("country.", ""));
+                    setCountry(countryPOJO);
                 }
             }
         } catch (Exception e) {
@@ -45,8 +52,11 @@ public class StatesPOJO extends BaseEntity{
         }
     }
 
+
+
     public boolean isEmpty() {
         return this.country==null &&
-                this.state==null;
+                this.state==null &&
+                this.code==null;
     }
 }

@@ -16,6 +16,7 @@ public abstract class BaseEntity {
     @Column(nullable = false)
     protected String id;
 
+    @JsonIgnore
     abstract public boolean isEmpty();
 
     @Column(name = "tenant_id", nullable = false, updatable = false)
