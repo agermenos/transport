@@ -12,24 +12,29 @@ import java.util.Optional;
 
 @Service("businessesService")
 public class BusinessesService {
-    @Autowired
+    final
     BusinessesDao businessesDao;
+
+    @Autowired
+    public BusinessesService(BusinessesDao businessesDao) {
+        this.businessesDao = businessesDao;
+    }
 
     @Transactional(propagation = Propagation.REQUIRED)
     public Optional<BusinessesPOJO> createBusiness(BusinessesPOJO businesses){
         BusinessesPOJO returnPOJO = businessesDao.save(businesses);
-        return Optional.of(returnPOJO);
+        return Optional.ofNullable(returnPOJO);
     }
 
     @Transactional(readOnly = true, propagation=Propagation.REQUIRED)
     public Optional<Iterable<BusinessesPOJO>> findAllByCriteria(BusinessesPOJO business){
         Example<BusinessesPOJO> example = Example.of(business);
-        return Optional.of(businessesDao.findAll(example));
+        return Optional.ofNullable(businessesDao.findAll(example));
     }
 
     @Transactional(propagation=Propagation.REQUIRED)
     public Optional<BusinessesPOJO> findById(String businessId){
-        return Optional.of(businessesDao.findOne(businessId));
+        return Optional.ofNullable(businessesDao.findOne(businessId));
     }
 
     @Transactional(propagation=Propagation.REQUIRED)
@@ -38,7 +43,7 @@ public class BusinessesService {
         if (originalBusiness==null) return Optional.empty();
         originalBusiness.setLastName(business.getLastName()!=null?business.getLastName():originalBusiness.getLastName());
         originalBusiness.setName(business.getName()!=null?business.getName():originalBusiness.getName());
-        return Optional.of(businessesDao.save(originalBusiness));
+        return Optional.ofNullable(businessesDao.save(originalBusiness));
     }
 
     public void deleteService(String id) {

@@ -12,29 +12,34 @@ import java.util.Optional;
 
 @Service("addressService")
 public class AddressService {
-    @Autowired
+    final
     AddressDao addressDao;
+
+    @Autowired
+    public AddressService(AddressDao addressDao) {
+        this.addressDao = addressDao;
+    }
 
     @Transactional(propagation= Propagation.REQUIRED)
     public Optional<AddressesPOJO> createAddress(AddressesPOJO address){
-        return Optional.of(addressDao.save(address));
+        return Optional.ofNullable(addressDao.save(address));
     }
 
     @Transactional(readOnly = true, propagation=Propagation.REQUIRED)
     public Optional<AddressesPOJO> findById(String addressId){
-        return Optional.of(addressDao.findOne(addressId));
+        return Optional.ofNullable(addressDao.findOne(addressId));
     }
 
     @Transactional(readOnly = true, propagation=Propagation.REQUIRED)
     public Optional<AddressesPOJO> findOneByCriteria (AddressesPOJO addressesPOJO){
         Example<AddressesPOJO> example = Example.of(addressesPOJO);
-        return Optional.of(addressDao.findOne(example));
+        return Optional.ofNullable(addressDao.findOne(example));
     }
 
     @Transactional(readOnly = true, propagation=Propagation.REQUIRED)
     public Optional<Iterable<AddressesPOJO>> findAllByCriteria (AddressesPOJO addressesPOJO){
         Example<AddressesPOJO> example = Example.of(addressesPOJO);
-        return Optional.of(addressDao.findAll(example));
+        return Optional.ofNullable(addressDao.findAll(example));
     }
 
     @Transactional(propagation=Propagation.REQUIRED)
@@ -45,7 +50,7 @@ public class AddressService {
         oldAddress.setStreet(address.getStreet()!=null?address.getStreet():oldAddress.getStreet());
         oldAddress.setStreet2(address.getStreet2()!=null?address.getStreet2():oldAddress.getStreet2());
         oldAddress.setZipCode(address.getZipCode()!=null?address.getZipCode():oldAddress.getZipCode());
-        return Optional.of(addressDao.save(oldAddress));
+        return Optional.ofNullable(addressDao.save(oldAddress));
     }
 
     @Transactional(propagation=Propagation.REQUIRED)

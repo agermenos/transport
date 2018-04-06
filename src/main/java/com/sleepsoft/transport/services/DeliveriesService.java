@@ -13,24 +13,29 @@ import java.util.Optional;
 
 @Service("deliveriesService")
 public class DeliveriesService {
-    @Autowired
+    final
     DeliveriesDao deliveriesDao;
+
+    @Autowired
+    public DeliveriesService(DeliveriesDao deliveriesDao) {
+        this.deliveriesDao = deliveriesDao;
+    }
 
     @Transactional(readOnly = true, propagation=Propagation.REQUIRED)
     public Optional<DeliveriesPOJO> findById(String id){
-        return Optional.of(deliveriesDao.findOne(id));
+        return Optional.ofNullable(deliveriesDao.findOne(id));
     }
 
     @Transactional(readOnly = true, propagation=Propagation.REQUIRED)
     public Optional<Iterable<DeliveriesPOJO>> findAllByCriteria(DeliveriesPOJO deliveriesPOJO){
         Example<DeliveriesPOJO> example = Example.of(deliveriesPOJO);
-        return Optional.of(deliveriesDao.findAll(example));
+        return Optional.ofNullable(deliveriesDao.findAll(example));
     }
 
     @Transactional(readOnly = true, propagation=Propagation.REQUIRED)
     public Optional<DeliveriesPOJO> findOneByCriteria(DeliveriesPOJO deliveriesPOJO){
         Example<DeliveriesPOJO> example = Example.of(deliveriesPOJO);
-        return Optional.of(deliveriesDao.findOne(example));
+        return Optional.ofNullable(deliveriesDao.findOne(example));
     }
 
     @Transactional(propagation= Propagation.REQUIRED)

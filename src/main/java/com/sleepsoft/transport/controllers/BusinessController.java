@@ -11,8 +11,13 @@ import java.util.Optional;
 @RestController
 @RequestMapping("businesses")
 public class BusinessController extends BaseController{
-    @Autowired
+    final
     BusinessesService businessesService;
+
+    @Autowired
+    public BusinessController(BusinessesService businessesService) {
+        this.businessesService = businessesService;
+    }
 
     @RequestMapping(method = RequestMethod.GET)
     public ResponseEntity<Iterable<BusinessesPOJO>> getBusinesses(

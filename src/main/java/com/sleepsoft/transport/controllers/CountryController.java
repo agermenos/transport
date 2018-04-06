@@ -12,8 +12,13 @@ import java.util.Optional;
 @RestController
 @RequestMapping("countries")
 public class CountryController extends BaseController{
-    @Autowired
+    final
     CountryService countryService;
+
+    @Autowired
+    public CountryController(CountryService countryService) {
+        this.countryService = countryService;
+    }
 
     @RequestMapping(method = RequestMethod.GET)
     public ResponseEntity<Iterable<CountriesPOJO>> getCountryes(

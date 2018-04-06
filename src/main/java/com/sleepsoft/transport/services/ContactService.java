@@ -12,8 +12,13 @@ import java.util.Optional;
 
 @Service("contactService")
 public class ContactService {
-    @Autowired
+    final
     ContactsDao contactsDao;
+
+    @Autowired
+    public ContactService(ContactsDao contactsDao) {
+        this.contactsDao = contactsDao;
+    }
 
     @Transactional(propagation= Propagation.REQUIRED)
     public Optional<ContactsPOJO> createContact(ContactsPOJO contact){
@@ -22,25 +27,25 @@ public class ContactService {
             return searchContact;
         }
         else {
-            return Optional.of(contactsDao.save(contact));
+            return Optional.ofNullable(contactsDao.save(contact));
         }
     }
 
     @Transactional(readOnly = true, propagation=Propagation.REQUIRED)
     public Optional<ContactsPOJO> findOneByCriteria(ContactsPOJO contact) {
         Example<ContactsPOJO> example = Example.of(contact);
-        return Optional.of(contactsDao.findOne(example));
+        return Optional.ofNullable(contactsDao.findOne(example));
     }
 
     @Transactional(readOnly = true, propagation=Propagation.REQUIRED)
     public Optional<Iterable<ContactsPOJO>> findAllByCriteria(ContactsPOJO contact){
         Example<ContactsPOJO> example = Example.of(contact);
-        return Optional.of(contactsDao.findAll(example));
+        return Optional.ofNullable(contactsDao.findAll(example));
     }
 
     @Transactional(propagation=Propagation.REQUIRED)
     public Optional<ContactsPOJO> findById(String contactId){
-        return Optional.of(contactsDao.findOne(contactId));
+        return Optional.ofNullable(contactsDao.findOne(contactId));
     }
 
     @Transactional(propagation=Propagation.REQUIRED)
@@ -49,6 +54,6 @@ public class ContactService {
         if (originalContact==null) return Optional.empty();
         originalContact.setContact(contact.getContact()!=null?contact.getContact():originalContact.getContact());
         originalContact.setContactType(contact.getContactType()!=null?contact.getContactType():originalContact.getContactType());
-        return Optional.of(contactsDao.save(originalContact));
+        return Optional.ofNullable(contactsDao.save(originalContact));
     }
 }

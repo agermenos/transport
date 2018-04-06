@@ -12,8 +12,13 @@ import java.util.Optional;
 @RestController
 @RequestMapping("states")
 public class StateController extends BaseController{
-    @Autowired
+    final
     StateService stateService;
+
+    @Autowired
+    public StateController(StateService stateService) {
+        this.stateService = stateService;
+    }
 
     @RequestMapping(method = RequestMethod.GET)
     public ResponseEntity<Iterable<StatesPOJO>> getStatees(

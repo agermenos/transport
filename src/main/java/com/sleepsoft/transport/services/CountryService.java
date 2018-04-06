@@ -13,35 +13,40 @@ import java.util.Optional;
 
 @Service("countryService")
 public class CountryService {
-    @Autowired
+    final
     CountriesDao countriesDao;
+
+    @Autowired
+    public CountryService(CountriesDao countriesDao) {
+        this.countriesDao = countriesDao;
+    }
 
     @Transactional(propagation= Propagation.REQUIRED)
     public Optional<CountriesPOJO> createCountry(CountriesPOJO country){
-        return Optional.of(countriesDao.save(country));
+        return Optional.ofNullable(countriesDao.save(country));
     }
 
     @Transactional(readOnly = true, propagation=Propagation.REQUIRED)
     public Optional<Iterable<CountriesPOJO>> findAllByCriteria (CountriesPOJO country){
         if (country.isEmpty()) {
-            return Optional.of(countriesDao.findAll());
+            return Optional.ofNullable(countriesDao.findAll());
         }
         country.setId(null  );
 
         ExampleMatcher matcher = ExampleMatcher.matching()
                 .withIgnoreCase(true);
         Example<CountriesPOJO> example = Example.of(country, matcher);
-        return Optional.of(countriesDao.findAll(example));
+        return Optional.ofNullable(countriesDao.findAll(example));
     }
 
     @Transactional(readOnly = true, propagation=Propagation.REQUIRED)
     public Optional<CountriesPOJO> findByCountry(String country){
-        return Optional.of(countriesDao.findByCountry(country));
+        return Optional.ofNullable(countriesDao.findByCountry(country));
     }
 
     @Transactional(readOnly = true, propagation=Propagation.REQUIRED)
     public Optional<CountriesPOJO> findById(String countryId){
-        return Optional.of(countriesDao.findOne(countryId));
+        return Optional.ofNullable(countriesDao.findOne(countryId));
     }
 
     @Transactional(propagation=Propagation.REQUIRED)
@@ -49,7 +54,7 @@ public class CountryService {
         CountriesPOJO originalCountry = countriesDao.findOne(id);
         if (originalCountry==null) return Optional.empty();
         originalCountry.setCountry(country.getCountry()!=null? country.getCountry():originalCountry.getCountry());
-        return Optional.of(countriesDao.save(originalCountry));
+        return Optional.ofNullable(countriesDao.save(originalCountry));
     }
 
     @Transactional(readOnly = true, propagation=Propagation.REQUIRED)

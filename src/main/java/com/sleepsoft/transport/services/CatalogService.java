@@ -12,17 +12,22 @@ import java.util.Optional;
 
 @Service("catalogService")
 public class CatalogService {
-    @Autowired
+    final
     TypeCatalogDao catalogDao;
+
+    @Autowired
+    public CatalogService(TypeCatalogDao catalogDao) {
+        this.catalogDao = catalogDao;
+    }
 
     @Transactional(readOnly = true, propagation=Propagation.REQUIRED)
     public Optional<TypeCatalogsPOJO> findById(String id){
-        return Optional.of(catalogDao.findOne(id));
+        return Optional.ofNullable(catalogDao.findOne(id));
     }
 
     @Transactional(readOnly = true, propagation=Propagation.REQUIRED)
     public Optional<TypeCatalogsPOJO> getCatalog(CatalogType type){
-        return Optional.of(catalogDao.findByType(type.definition()));
+        return Optional.ofNullable(catalogDao.findByType(type.definition()));
     }
 
     @Transactional(readOnly = true, propagation= Propagation.REQUIRED)
@@ -30,9 +35,9 @@ public class CatalogService {
         TypeCatalogsPOJO searchCatalog = catalogDao.findByType(catalogsPOJO.getType());
         if (searchCatalog!=null) {
             if (searchCatalog.equals(catalogsPOJO))
-            return Optional.of(searchCatalog);
+            return Optional.ofNullable(searchCatalog);
         }
-        return Optional.of(catalogDao.save(catalogsPOJO));
+        return Optional.ofNullable(catalogDao.save(catalogsPOJO));
     }
 
     @Transactional(readOnly = true, propagation=Propagation.REQUIRED)
@@ -43,7 +48,7 @@ public class CatalogService {
             originalCatalog.setParent(newCatalogPOJO.getParent()!=null?newCatalogPOJO.getParent():originalCatalog.getParent());
             catalogDao.save(originalCatalog);
         }
-        return Optional.of(originalCatalog);
+        return Optional.ofNullable(originalCatalog);
     }
 
     @Transactional(readOnly = true, propagation=Propagation.REQUIRED)

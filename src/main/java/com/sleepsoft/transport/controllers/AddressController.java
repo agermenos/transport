@@ -13,8 +13,13 @@ import java.util.Optional;
 @RestController
 @RequestMapping("addresses")
 public class AddressController extends BaseController{
-    @Autowired
+    final
     AddressService addressService;
+
+    @Autowired
+    public AddressController(AddressService addressService) {
+        this.addressService = addressService;
+    }
 
     @RequestMapping(method = RequestMethod.GET)
     public ResponseEntity<Iterable<BusinessesPOJO>> getBusinesses(

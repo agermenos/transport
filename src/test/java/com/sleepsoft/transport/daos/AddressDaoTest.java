@@ -4,7 +4,6 @@ import com.sleepsoft.transport.TransportApplication;
 import com.sleepsoft.transport.pojos.AddressesPOJO;
 import com.sleepsoft.transport.pojos.CountriesPOJO;
 import com.sleepsoft.transport.pojos.StatesPOJO;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
