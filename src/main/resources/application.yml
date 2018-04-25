@@ -1,11 +1,11 @@
 spring:
   datasource:
     url: jdbc:postgresql://localhost:5432/transport
-    username: agermenos
+    username: postgres
     password: password
     driver-class-name: org.postgresql.Driver
   jpa:
-    database-platform: org.hibernate.dialect.PostgreSQL95Dialect
+    database-platform: org.hibernate.dialect.PostgreSQL94Dialect
     show-sql: true
     hibernate:
       ddl-auto: create
