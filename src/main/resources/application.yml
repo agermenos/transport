@@ -1,9 +1,10 @@
 spring:
   datasource:
     url: jdbc:postgresql://localhost:5432/transport
-    username: postgres
-    password: password
+    username: agermenos
+    password:
     driver-class-name: org.postgresql.Driver
+    initialize: false
   jpa:
     database-platform: org.hibernate.dialect.PostgreSQL94Dialect
     show-sql: true
