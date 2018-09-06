@@ -1,15 +1,11 @@
 package com.sleepsoft.transport.pojos;
 
-import com.sleepsoft.transport.util.FilterHelper;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.http.NameValuePair;
 
 import javax.persistence.*;
-import java.net.URISyntaxException;
 import java.util.Arrays;
-import java.util.List;
 
 @Entity
 @Table(name = "states", schema = "public", catalog = "transport")
