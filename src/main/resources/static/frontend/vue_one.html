@@ -9,6 +9,10 @@
     <div id="app">
         <input type="text" v-on:input="changeTitle">
         <p>{{ sayHello('mutha-foca!') }}</p>
+        <hr>
+        <p><a v-bind:href="link">Google</a></p>
+        <hr>
+        <p v-html="finishedLink"></p>
     </div>
 </body>
 <footer>

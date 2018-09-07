@@ -24,6 +24,7 @@ public class CatalogDaoTest {
         TypeCatalogsPOJO child = new TypeCatalogsPOJO();
         child.setType(definition);
         child.setParent(parent);
+        child.setTenantId("test");
         return child;
     }
 

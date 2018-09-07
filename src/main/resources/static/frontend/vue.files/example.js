@@ -1,7 +1,9 @@
 new Vue({
     el:'#app',
     data: {
-        title:'Mutha-Foca'
+        title:'Mutha-Foca',
+        link:"http://google.com",
+        finishedLink:'<a href="http://google.com">Google</a>'
     },
     methods:{
         changeTitle: function(event){
