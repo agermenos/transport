@@ -1,0 +1,18 @@
+<script src="https://unpkg.com/vue/dist/vue.js"></script>
+<div id="app">
+    <button v-on:click="increase(2)">
+        Click Me!
+    </button>
+    <p>
+        {{counter}}
+    </p>
+    <p v-on:mousemove="updateCoords">
+        Coordinates: ({{ x }}, {{ y }}) -
+            <span v-on:mousemove.stop> DEAD ZONE </span>
+    </p>
+    <input type="text" v-on:keyup.enter.space="alertMe">
+</div>
+<footer>
+    <script src="vue.files/vue_events.js">
+    </script>
+</footer>
